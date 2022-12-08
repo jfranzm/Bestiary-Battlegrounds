@@ -47,6 +47,6 @@ body {
     background-color: rgba(215,207,193,0.4);
 }
 
-#attack :hover {
-    background-color: rgba(215,207,193,1);
+#attack:hover {
+    background-color: rgba(215,207,193,.7);
 }
