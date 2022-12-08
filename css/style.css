@@ -1,0 +1,47 @@
+body {
+    background-color: white;
+    overflow: hidden;
+}
+
+.container {
+    position: relative;
+    width: 1024px;
+    height: 576px;
+    outline: 1px solid black;
+    margin: 0 auto;
+}
+
+.container > #bg-img {
+    width: 1024px;
+    height: 576px;
+}
+
+#playerSprite {
+    width: 150px;
+    height: 150px;
+    position: absolute;
+    left: 40px;
+    bottom: 50px;
+}
+
+#enemySprite {
+    width: 400px;
+    height: 400px;
+    position: absolute;
+    right: 30px;
+    bottom: 30px;
+}
+
+.playerInput {
+    height: 100px;
+    width: 100px;
+    border-radius: 100%;
+    border: none;
+    transition: .15s;
+}
+
+#attack {
+    position: absolute;
+    top: 200px;
+    left: 40px;
+}
