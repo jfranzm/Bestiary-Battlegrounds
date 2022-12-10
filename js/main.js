@@ -55,9 +55,20 @@ function enemyTurn() {
 }
 // win condition
 function playerWin() {
-    if (playerUnit.HP <= 0) {
-
+    if (enemyUnit.HP <= 0) {
+        addLog(`You successfully defeated ${enemyUnit.unitName}!`)
     }
+}
+// Lose condition
+function playerLoss() {
+    if (playerUnit.HP <= 0) {
+        addLog(`${playerUnit.unitName} has fainted... you begin to blackout<br>`)
+    }
+}
+// game over condition OR battle end
+function gameOver() {
+    playerWin();
+    playerLoss();
 }
 // Displays text of what happened during round
 function addLog(Text){
@@ -72,7 +83,7 @@ function playerInput(buttons){
     console.log('its working');
     // if(buttons === playerUnit.options.attack) {
     //     // playerUnit.options.attack;
-    //     // addLog(`${playerUnit.name} dealt ${playerUnit.dmgCalc()} damage!`)
+    //     // addLog(`${playerUnit.unitName} dealt ${playerUnit.dmgCalc()} damage!`)
     // }
 }
 
