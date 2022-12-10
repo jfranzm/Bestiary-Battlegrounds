@@ -1,29 +1,32 @@
+/*----- constants -----*/
+let buttons = document.getElementsByClassName('playerInput');
+const attackInput = document.getElementById('attack').addEventListener('click', playerInput);
 /*---- state variables -----*/
 let playerUnit, enemyUnit;
 // Unit class
 class Unit {
-    constructor(totalHP, HP, atkStat, options) {
+    constructor(unitName, totalHP, HP, atkStat, options) {
+        this.unitName = unitName;
         this.totalHP = totalHP;
         this.HP = HP;
         this.atkStat = atkStat;
         this.options = options;
     }
-    dmgCalc(target) {
-        target.HP - (Math.floor(Math.random()* this.atkStat))
-        render();
-    }
+    // dmgCalc(target) {
+    //     target.HP - (Math.floor(Math.random()* this.atkStat))
+    // }
 }
 
 // playerUnit stats
-playerUnit = new Unit(30, 30, 10, {
+playerUnit = new Unit('Monkey', 30, 30, 10, {
     // player options
-    attack: dmgCalc(target)
+    // attack: this.dmgCalc(target)
 })
 
 // enemyUnit stats
-enemyUnit = new Unit(40, 40, 6, {
+enemyUnit = new Unit('Frog', 40, 40, 6, {
     // enemy options
-    attack: dmgCalc(target)
+    // attack: this.dmgCalc(target)
 })
 // turn counter
 let turn = 1
@@ -32,31 +35,48 @@ let turn = 1
 function turnCounter() {
     turn++;
 }
-
-// win condition
-// function playerWin() {
-//     if (playerUnit.HP <= 0) {
-
-//     }
-// }
-/*----- event listners -----*/
-function playerInput(){
-    let choice = document.getElementsByClassName('playerInput');
-    for (idx=0; idx < playerChoice.length; idx++) {
-        playerChoice[idx].addEventListener('click', playerChoice);
+// enable player buttons upon start up
+function enableButtons() {
+    buttons.disabled = false;
+}
+// player turn execution
+function playerTurn() {
+    if(turn % 2 !== 0){
+        playerInput();
+        turnCounter();
     }
+}
+// enemy turn execution
+function enemyTurn() {
+    if(turn % 2 === 0){
+        // placeholder code until more options are included
+        enemyUnit.options.attack;
+    }
+}
+// win condition
+function playerWin() {
+    if (playerUnit.HP <= 0) {
+
+    }
+}
+// Displays text of what happened during round
+function addLog(Text){
+    let logContainer = document.getElementById('text-box');
+    newLog = document.createElement('label');
+    newLog.classList.add('Logs');
+    newLog.innerHTML = Text;
+    logContainer.appendChild(newLog);
+}
+/*----- event listners -----*/
+function playerInput(buttons){
+    console.log('its working');
+    // if(buttons === playerUnit.options.attack) {
+    //     // playerUnit.options.attack;
+    //     // addLog(`${playerUnit.name} dealt ${playerUnit.dmgCalc()} damage!`)
+    // }
 }
 
 
-// let playerChoice = '';
 
 
 
-// function playerTurn() {
-//     if(turn % 2 !== 0){
-
-//     }
-// }
-// function enemyTurn() {
-//     if(turn ===)
-// } 
