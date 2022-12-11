@@ -24,19 +24,19 @@ body {
 }
 
 #playerSprite {
-    width: 150px;
-    height: 150px;
+    width: 120px;
+    height: 120px;
     position: absolute;
-    left: 40px;
-    bottom: 150px;
+    left: 60px;
+    bottom: 160px;
 }
 
 #enemySprite {
-    width: 400px;
-    height: 400px;
+    width: 350px;
+    height: 350px;
     position: absolute;
     right: 30px;
-    bottom: 110px;
+    bottom: 120px;
 }
 
 .playerInput {

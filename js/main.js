@@ -1,33 +1,23 @@
 /*----- constants -----*/
 let buttons = document.getElementsByClassName('playerInput');
-const attackInput = document.getElementById('attack').addEventListener('click', playerInput);
+const attackInput = document.getElementById('attack').addEventListener('click', playerAttack);
 /*---- state variables -----*/
 let playerUnit, enemyUnit;
 // Unit class
 class Unit {
-    constructor(unitName, totalHP, HP, atkStat, options) {
+    constructor(unitName, totalHP, HP, atkStat) {
         this.unitName = unitName;
         this.totalHP = totalHP;
         this.HP = HP;
         this.atkStat = atkStat;
-        this.options = options;
     }
-    // dmgCalc(target) {
-    //     target.HP - (Math.floor(Math.random()* this.atkStat))
-    // }
 }
 
 // playerUnit stats
-playerUnit = new Unit('Monkey', 30, 30, 10, {
-    // player options
-    // attack: this.dmgCalc(target)
-})
+playerUnit = new Unit('Monkey', 30, 30, 10)
 
 // enemyUnit stats
-enemyUnit = new Unit('Frog', 40, 40, 6, {
-    // enemy options
-    // attack: this.dmgCalc(target)
-})
+enemyUnit = new Unit('Frog', 40, 40, 6)
 // turn counter
 let turn = 1
 
@@ -38,6 +28,14 @@ function turnCounter() {
 // enable player buttons upon start up
 function enableButtons() {
     buttons.disabled = false;
+}
+// calculation for damage delt
+function dmgCalc(target, attacker) {
+    let damageDealt = (Math.floor(Math.random() * attacker.atkStat));
+    console.log(target.HP);
+    console.log(damageDealt);
+    target.HP = target.HP - damageDealt;
+    addLog(`${attacker.unitName} dealt ${damageDealt} damage! <br>`);
 }
 // player turn execution
 function playerTurn() {
@@ -57,12 +55,14 @@ function enemyTurn() {
 function playerWin() {
     if (enemyUnit.HP <= 0) {
         addLog(`You successfully defeated ${enemyUnit.unitName}!`)
+        buttons.disabled = true;
     }
 }
 // Lose condition
 function playerLoss() {
     if (playerUnit.HP <= 0) {
         addLog(`${playerUnit.unitName} has fainted... you begin to blackout<br>`)
+        buttons.disabled = true;
     }
 }
 // game over condition OR battle end
@@ -72,19 +72,22 @@ function gameOver() {
 }
 // Displays text of what happened during round
 function addLog(Text){
-    let logContainer = document.getElementById('text-box');
+    let textBox = document.getElementById('text-box');
     newLog = document.createElement('label');
     newLog.classList.add('Logs');
     newLog.innerHTML = Text;
-    logContainer.appendChild(newLog);
+    textBox.appendChild(newLog);
 }
-/*----- event listners -----*/
-function playerInput(buttons){
+
+
+
+/*----- event listeners -----*/
+function playerAttack(attackInput){
     console.log('its working');
-    // if(buttons === playerUnit.options.attack) {
-    //     // playerUnit.options.attack;
-    //     // addLog(`${playerUnit.unitName} dealt ${playerUnit.dmgCalc()} damage!`)
-    // }
+    dmgCalc(enemyUnit, playerUnit);
+
+
+    console.log(enemyUnit.HP)
 }
 
 
