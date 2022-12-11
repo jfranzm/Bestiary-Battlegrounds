@@ -1,6 +1,5 @@
 /*----- constants -----*/
 let buttons = document.getElementsByClassName('playerInput');
-// const attackInput = document.getElementById('attack').addEventListener('click', playerAttack);
 const attackInput = document.getElementById('attack').addEventListener('click', whosTurn);
 
 function turnCounter() {
@@ -8,7 +7,6 @@ function turnCounter() {
 }
  // calculation for damage delt
 function dmgCalc(target, attacker) {
-    console.log(playerUnit.HP);
     let damageDealt = (Math.floor(Math.random() * attacker.atkStat));
     target.HP = target.HP - damageDealt;
     addLog(`${attacker.unitName} dealt ${damageDealt} damage! <br>`);
@@ -20,8 +18,11 @@ function dmgCalc(target, attacker) {
         3: 'green',
     }
 
-    let barColour = hpStatus[parseInt(Math.floor(target.HP / (target.totalHP / 4)))];
+    let quarterIndex = parseInt(Math.floor(target.HP / (target.totalHP / 4)));
+    quarterIndex = (quarterIndex < 0) ? 0 : quarterIndex; 
+    let barColour = hpStatus[quarterIndex];
     let barPercentage = (target.HP / target.totalHP) * 100; 
+
     // if player is attacked update HP bar
     if(target == playerUnit) {
         const playerHPBar = document.getElementById('player-HPbar');
@@ -35,13 +36,11 @@ function dmgCalc(target, attacker) {
 }
 
 
-
 function whosTurn(){
     let turnParity = (turn % 2 === 0);
     (turnParity) ? playerAttack() : enemyAttack(); 
     turn ++;
 }
-
 
 // win condition
 function playerWin() {
@@ -73,7 +72,6 @@ function playerAttack(attackInput){
 }
 
 function enemyAttack(){
-    // console.log("The frog hit");
     dmgCalc(playerUnit, enemyUnit);
     gameOver();
 
