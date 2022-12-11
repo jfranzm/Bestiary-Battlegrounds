@@ -30,6 +30,8 @@ function addLog(Text){
     newLog.classList.add('Logs');
     newLog.innerHTML = Text;
     textBox.appendChild(newLog);
+    textBox.scrollTop = textBox.scrollHeight;
+
 }
 
 

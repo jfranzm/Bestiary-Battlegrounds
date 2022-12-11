@@ -8,6 +8,7 @@ function turnCounter() {
 }
  // calculation for damage delt
 function dmgCalc(target, attacker) {
+    console.log(playerUnit.HP);
     let damageDealt = (Math.floor(Math.random() * attacker.atkStat));
     target.HP = target.HP - damageDealt;
     addLog(`${attacker.unitName} dealt ${damageDealt} damage! <br>`);
@@ -33,27 +34,11 @@ function dmgCalc(target, attacker) {
     }
 }
 
-// player turn execution
-function playerTurn() {
-    if(turn % 2 !== 0){
-        playerAttack();
-        turnCounter();
-    }
-}
-// enemy turn execution
-function enemyTurn() {
-    if(turn % 2 === 0){
-        // placeholder code until more options are included
-        
-    }
-}
 
 
 function whosTurn(){
     let turnParity = (turn % 2 === 0);
-    // (turnParity) ? console.log("Monkey") : console.log("Frog"); 
     (turnParity) ? playerAttack() : enemyAttack(); 
-    // console.log(turn);
     turn ++;
 }
 
@@ -62,14 +47,18 @@ function whosTurn(){
 function playerWin() {
     if (enemyUnit.HP <= 0) {
         addLog(`You successfully defeated ${enemyUnit.unitName}!`)
-        buttons.disabled = true;
-    }
+        for (index=0; index < buttons.length; index++) {
+            buttons[index].disabled = true;
+        }
+   }
 }
 // Lose condition
 function playerLoss() {
     if (playerUnit.HP <= 0) {
         addLog(`${playerUnit.unitName} has fainted... you begin to blackout<br>`)
-        buttons.disabled = true;
+        for (index=0; index < buttons.length; index++) {
+            buttons[index].disabled = true;
+        }
     }
 }
 // game over condition OR battle end
@@ -79,15 +68,13 @@ function gameOver() {
 }
 /*----- event listeners -----*/
 function playerAttack(attackInput){
-    // console.log("The monkey hit");
     dmgCalc(enemyUnit, playerUnit);
-
-    // console.log(enemyUnit.HP)
-    // enemyAttack();
+    gameOver();
 }
 
 function enemyAttack(){
     // console.log("The frog hit");
     dmgCalc(playerUnit, enemyUnit);
+    gameOver();
 
 }
