@@ -9,11 +9,13 @@ body {
     height: 576px;
     outline: 1px solid black;
     margin: 0 auto;
+    box-shadow: 0 5px 1rem rgba(0, 0, 0, 0.3);
 }
 
 .container > #bg-img {
     width: 1024px;
     height: 576px;
+    position: absolute;
 }
 #stat-bar {
     position: absolute;
@@ -28,15 +30,35 @@ body {
     height: 120px;
     position: absolute;
     left: 60px;
-    bottom: 160px;
+    bottom: 170px;
 }
+#player-HPbar {
+    width: 120px;
+    height: 10px;
+    border: 1px white solid;
+    background-color: gray;
+    position: absolute;
+    left: 60px;
+    bottom: 140px;
+    background-image: linear-gradient(to right, green 100%, rgba(0,0,0,0) 100%);
 
+}
 #enemySprite {
     width: 350px;
     height: 350px;
     position: absolute;
     right: 30px;
-    bottom: 120px;
+    bottom: 130px;
+}
+#enemy-HPbar {
+    width: 350px;
+    height: 10px;
+    border: 1px white solid;
+    background-color: gray;
+    position: absolute;
+    right: 30px;
+    bottom: 140px;
+    background-image: linear-gradient(to right, green 100%, rgba(0,0,0,0) 100%);
 }
 
 .playerInput {
