@@ -2,19 +2,20 @@
 let playerUnit, enemyUnit;
 // Unit class
 class Unit {
-    constructor(unitName, totalHP, HP, atkStat) {
+    constructor(unitName, totalHP, HP, atkStat, defStat) {
         this.unitName = unitName;
         this.totalHP = totalHP;
         this.HP = HP;
         this.atkStat = atkStat;
+        this.defStat = defStat;
     }
 }
 
 // playerUnit stats
-playerUnit = new Unit('Monkey', 30, 30, 10)
+playerUnit = new Unit('Monkey', 30, 30, 10, 8)
 
 // enemyUnit stats
-enemyUnit = new Unit('Frog', 40, 40, 6)
+enemyUnit = new Unit('Frog', 40, 40, 6, 10)
 // turn counter
 let turn = 1
 

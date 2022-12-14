@@ -41,7 +41,14 @@ body {
     left: 60px;
     bottom: 140px;
     background-image: linear-gradient(to right, green 100%, rgba(0,0,0,0) 100%);
-
+    background-repeat: none;
+    background-size: 100% 100%;
+    background-position: 0% 10%;
+    transition: background-position 0.5s, transform 0.2s;
+}
+#player-HPbar:hover {
+    background-position: 0% 50%;
+    transform: scale(1.05);
 }
 #enemySprite {
     width: 350px;
@@ -94,6 +101,7 @@ body {
     box-shadow: 0 5px 1rem rgba(0, 0, 0, 0.5);
     color: white;
     overflow: scroll;
+    padding-left: 15px;
 }
 
 ::-webkit-scrollbar {
