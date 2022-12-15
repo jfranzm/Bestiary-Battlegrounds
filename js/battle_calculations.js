@@ -1,7 +1,9 @@
  // calculation for damage delt
  function dmgCalc(target, attacker) {
+    let dmgRedux = ((Math.floor(Math.random() * target.defStat)) / 100) + 1;
     let damageDealt = (Math.floor(Math.random() * attacker.atkStat));
-    target.HP = target.HP - damageDealt;
+    
+    target.HP = (target.HP - damageDealt) / dmgRedux;
     addLog(`${attacker.unitName} dealt ${damageDealt} damage! <br>`);
     // dictionary for position of HP Bar
     const hpStatus = {
@@ -26,9 +28,11 @@
         const enemyHPBar = document.getElementById('enemy-HPbar');
         enemyHPBar.style.backgroundImage = `linear-gradient(to right, ${barColour} ${barPercentage}%, rgba(0,0,0,0) ${barPercentage}%)`;
     }
+    
 }
 // calculation damage reduction when in defensive stance
 function defCalc(defender) {
-    let dmgBlocked = ((Math.floor(Math.random() * defender.defStat)) / 100) + 1;
-    console.log(dmgBlocked)
+    
+    addLog(`${defender.unitName} is bracing itself... <br>`);
+    
 }

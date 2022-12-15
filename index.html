@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Project1</title>
     <link rel="stylesheet" href="css/style.css">
-
+    <link rel="stylesheet" href="css/player-selection.css">
 </head>
 <body>
     <div class="container">
@@ -16,12 +16,15 @@
         <div id="player-HPbar"></div>
         <img id='enemySprite'src="assets/sprites/frog.png" alt="frog">
         <div id="enemy-HPbar"></div>
-        <button class='playerInput' id="attack">attack</button>
+        <div id="selection-box">
+            <button class='playerInput' id="attack">attack</button>
+            <button class="playerInput" id="defend">defend</button>
+        </div>
         <div id="text-box"></div>
     </div>
     
 </body>
 <script defer src="js/main.js"></script>
 <script defer src="js/battle_system.js"></script>
-<script src="js/battle_calculations.js"></script>
+<script defer src="js/battle_calculations.js"></script>
 </html>

@@ -41,15 +41,8 @@ body {
     left: 60px;
     bottom: 140px;
     background-image: linear-gradient(to right, green 100%, rgba(0,0,0,0) 100%);
-    background-repeat: none;
-    background-size: 100% 100%;
-    background-position: 0% 10%;
-    transition: background-position 0.5s, transform 0.2s;
 }
-#player-HPbar:hover {
-    background-position: 0% 50%;
-    transform: scale(1.05);
-}
+
 #enemySprite {
     width: 350px;
     height: 350px;
@@ -66,26 +59,6 @@ body {
     right: 30px;
     bottom: 140px;
     background-image: linear-gradient(to right, green 100%, rgba(0,0,0,0) 100%);
-}
-
-.playerInput {
-    height: 100px;
-    width: 100px;
-    border-radius: 100%;
-    border: none;
-    transition: .15s;
-}
-
-#attack {
-    position: absolute;
-    top: 150px;
-    left: 40px;
-    background-color: rgba(215,207,193,0.4);
-    box-shadow: 0 5px 1rem rgba(0, 0, 0, 0.3);
-}
-
-#attack:hover {
-    background-color: rgba(215,207,193,.7);
 }
 
 #text-box {

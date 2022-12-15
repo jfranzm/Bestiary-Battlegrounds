@@ -38,7 +38,6 @@ function gameOver() {
 /*----- event listeners -----*/
 function playerAttack(attackInput){
     dmgCalc(enemyUnit, playerUnit);
-    defCalc(playerUnit);
     gameOver();
 }
 

@@ -1,0 +1,40 @@
+#selection-box {
+    height: 100px;
+    width: 300px;
+    position: absolute;
+    top: 80px;
+    left: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    background-color: black;
+    border: 1px white solid;
+    align-items: center;
+}
+.playerInput {
+    height: 20px;
+    width: 50px;
+    border: none;
+    transition: .15s;
+}
+
+#attack {
+    position: relative;
+    background-color: black;
+    color: rgba(255, 255, 255, .7);
+    font-size: medium;
+}
+
+#attack:hover {
+    color: rgba(255, 255, 255, 1.0);
+}
+
+#defend {
+    position: relative;
+    background-color: black;
+    color: rgba(255, 255, 255, .7);
+    font-size: medium;
+}
+#defend:hover {
+    color: rgba(255, 255, 255, 1);
+}
