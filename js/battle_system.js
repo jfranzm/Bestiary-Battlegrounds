@@ -4,18 +4,19 @@
 // const skillInput = document.getElementById('skills').addEventListener('click', playerTurn);
 // const focusInput = document.getElementById('focus').addEventListener('click', playerTurn);
 
-const attackInput = document.getElementById('attack').addEventListener('click', Player_Selects);
-const defendInput = document.getElementById('defend').addEventListener('click', Player_Selects);
-const skillInput = document.getElementById('skills').addEventListener('click', Toggle_Skills_Menu);
-const focusInput = document.getElementById('focus').addEventListener('click', Player_Selects);
-
+document.getElementById('attack').addEventListener('click', Player_Selects);
+document.getElementById('defend').addEventListener('click', Player_Selects);
+document.getElementById('skills').addEventListener('click', Toggle_Skills_Menu);
+document.getElementById('back').addEventListener('click', Toggle_Skills_Menu);
+document.getElementById('focus').addEventListener('click', Player_Selects);
+document.getElementById('double-hit').addEventListener('click', Player_Selects);
+document.getElementById('heal').addEventListener('click', Player_Selects);
 
 
 function Toggle_Skills_Menu(){
     document.getElementById('skills-menu').classList.toggle('Toggle_Menu');
 }
-
-
+Update_HP_Bar(playerUnit)
 
 let Players_Move;
 let Enemys_Move;
@@ -45,22 +46,43 @@ function Battle(){
         case "attack":
             Attack(playerUnit,enemyUnit);
             break;
+        case "double-hit":
+            Attack(playerUnit,enemyUnit);
+            Attack(playerUnit,enemyUnit);
+            break;
+        case "heal":
+            heal(playerUnit);
+            break;
         case "focus":
             break;
         default:
       }
     // Attack(playerUnit,enemyUnit);
 
+    let Enemy_Think_Time = 1500;
+    
+    let Selection_Box = document.getElementById('selection-box');
+    Selection_Box.classList.remove('Move_Left_Animation');
+    void Selection_Box.offsetWidth;
+    Selection_Box.classList.add('Move_Left_Animation');
 
+    setTimeout(function(){
     // Process enemys move
     switch(Enemys_Move) {
         case "attack":
             Attack(enemyUnit,playerUnit);
+            document.getElementById("enemySprite").classList.remove("Smack");
+            void document.getElementById("enemySprite").offsetWidth;
+            document.getElementById("enemySprite").classList.add("Smack");
             break;
+
         case "focus":
             break;
         default:
-      }
+    }
+
+
+      }, Enemy_Think_Time);
 
 }
 
@@ -80,6 +102,10 @@ function Attack(Attacker,Receiver){
     return Cummulative_Attack;
 }
 
+function heal(target){
+    target.HP = Math.min(target.HP + (target.totalHP / 4),target.totalHP);
+    Update_HP_Bar(target);
+}
 
 
 function Update_HP_Bar(target){
@@ -92,9 +118,13 @@ function Update_HP_Bar(target){
     }
 
     let quarterIndex = parseInt(Math.floor(target.HP / (target.totalHP / 4)));
-    quarterIndex = (quarterIndex < 0) ? 0 : quarterIndex; 
+    quarterIndex = Math.max(quarterIndex,0);
+    quarterIndex = Math.min(quarterIndex,3);
     let barColour = hpStatus[quarterIndex];
-    let barPercentage = (target.HP / target.totalHP) * 100; 
+
+
+    let barPercentage = parseFloat((target.HP / target.totalHP) * 100); 
+  
     // // if player is attacked update HP bar
     if(target == playerUnit) {
         const playerHPBar = document.getElementById('player-HPbar');
