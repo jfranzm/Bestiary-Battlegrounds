@@ -23,6 +23,7 @@
     background-color: black;
     color: rgba(255, 255, 255, .7);
     font-size: medium;
+    margin: 0 auto;
 }
 
 #attack:hover {
@@ -34,7 +35,28 @@
     background-color: black;
     color: rgba(255, 255, 255, .7);
     font-size: medium;
+    left: 30px;
 }
 #defend:hover {
+    color: rgba(255, 255, 255, 1);
+}
+#skills {
+    position: relative;
+    background-color: black;
+    color: rgba(255, 255, 255, .7);
+    font-size: medium;
+    margin: 0 auto;
+}
+#skills:hover {
+    color: rgba(255, 255, 255, 1);
+}
+#focus {
+    position: relative;
+    background-color: black;
+    color: rgba(255, 255, 255, .7);
+    font-size: medium;
+    left: 30px;
+}
+#focus:hover {
     color: rgba(255, 255, 255, 1);
 }

@@ -1,8 +1,8 @@
  // calculation for damage delt
  function dmgCalc(target, attacker) {
     let dmgRedux = ((Math.floor(Math.random() * target.defStat)) / 100) + 1;
-    let damageDealt = (Math.floor(Math.random() * attacker.atkStat));
-    
+    let damageDealt = (Math.floor(Math.random() * (attacker.atkStat - 1 + 1)) + 1);
+
     target.HP = (target.HP - damageDealt) / dmgRedux;
     addLog(`${attacker.unitName} dealt ${damageDealt} damage! <br>`);
     // dictionary for position of HP Bar
@@ -30,9 +30,22 @@
     }
     
 }
-// calculation damage reduction when in defensive stance
-function defCalc(defender) {
-    
-    addLog(`${defender.unitName} is bracing itself... <br>`);
-    
+// calculate damage reduction when in defensive stance
+function defCalc(target, attacker) {
+    let dmgRedux = ((Math.floor(Math.random() * target.defStat)) / 100) + 1;
+    let damageDealt = (Math.floor(Math.random() * (attacker.atkStat - 1 + 1)) + 1);
+
+    target.HP = ((target.HP - damageDealt) / dmgRedux) * 0.66;
+}
+
+// calculate how much stamina is recovered to unit
+function focusCalc(user) {
+    let focusRecover = (Math.floor(Math.random() * (user.totalStamina - 1 + 1)) + 1);
+    if(user.stamina + focusRecover <= user.totalStamina){
+        user.stamina = user.stamina + focusRecover;
+    }
+    else {
+        user.stamina = user.totalStamina;
+    }
+
 }

@@ -14,17 +14,42 @@
         <div id="stat-bar"></div>
         <img id='playerSprite' src="assets/sprites/Subject.png" alt="monkey">
         <div id="player-HPbar"></div>
+        <div id="player-Stmbar"></div>
         <img id='enemySprite'src="assets/sprites/frog.png" alt="frog">
         <div id="enemy-HPbar"></div>
+        <div id="enemy-Stmbar"></div>
         <div id="selection-box">
             <button class='playerInput' id="attack">attack</button>
             <button class="playerInput" id="defend">defend</button>
+            <button class="playerInput" id ="skills">skills</button>
+            <button class="playerInput" id="focus">focus</button>
         </div>
         <div id="text-box"></div>
+        <div id="Queue">
+            <div id="Players_Selection"></div>
+            <div id="Enemys_Selection"></div>
+        </div>
     </div>
     
 </body>
 <script defer src="js/main.js"></script>
-<script defer src="js/battle_system.js"></script>
 <script defer src="js/battle_calculations.js"></script>
+<script defer src="js/battle_system.js"></script>
+
 </html>
+
+
+
+<style>
+    /* #Queue{
+        display: grid;
+        position: absolute;
+        height: 5rem;
+        width: 10rem;
+        left: calc(50% - v)
+        background-color: white;
+        color: black;
+    } */
+
+
+</style>
