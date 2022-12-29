@@ -10,53 +10,50 @@
     background-color: black;
     border: 1px white solid;
     align-items: center;
+    box-sizing: border-box;
 }
 .playerInput {
-    height: 20px;
-    width: 50px;
+    /* height: 20px;
+    width: 50px; */
+    height: 100%;
+    width: 100%;
     border: none;
-    transition: .15s;
-}
-
-#attack {
     position: relative;
     background-color: black;
     color: rgba(255, 255, 255, .7);
     font-size: medium;
-    margin: 0 auto;
 }
 
-#attack:hover {
+.playerInput:hover {
     color: rgba(255, 255, 255, 1.0);
 }
 
-#defend {
-    position: relative;
+.skills-menu{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    left: 1rem;
+    top: 1rem;
     background-color: black;
-    color: rgba(255, 255, 255, .7);
-    font-size: medium;
-    left: 30px;
+    border: 1px solid white;
+    z-index: 5;
+    filter: opacity(0);
+    pointer-events: none;
+    transition: 0.2s;
+    transform: translateY(-2rem) translateX(-2rem);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
 }
-#defend:hover {
-    color: rgba(255, 255, 255, 1);
+
+.Toggle_Menu{
+    filter: opacity(1);
+    transform: translateY(0em) translateX(0rem);
+
 }
-#skills {
-    position: relative;
-    background-color: black;
-    color: rgba(255, 255, 255, .7);
-    font-size: medium;
-    margin: 0 auto;
-}
-#skills:hover {
-    color: rgba(255, 255, 255, 1);
-}
-#focus {
-    position: relative;
-    background-color: black;
-    color: rgba(255, 255, 255, .7);
-    font-size: medium;
-    left: 30px;
-}
-#focus:hover {
-    color: rgba(255, 255, 255, 1);
+
+
+
+button{
+    border: none;
 }

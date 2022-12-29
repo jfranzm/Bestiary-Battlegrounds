@@ -1,5 +1,4 @@
 /*----- constants -----*/
-let buttons = document.getElementsByClassName('playerInput');
 // const attackInput = document.getElementById('attack').addEventListener('click', playerTurn);
 // const defendInput = document.getElementById('defend').addEventListener('click', playerTurn);
 // const skillInput = document.getElementById('skills').addEventListener('click', playerTurn);
@@ -7,14 +6,16 @@ let buttons = document.getElementsByClassName('playerInput');
 
 const attackInput = document.getElementById('attack').addEventListener('click', Player_Selects);
 const defendInput = document.getElementById('defend').addEventListener('click', Player_Selects);
-// const skillInput = document.getElementById('skills').addEventListener('click', Player_Selects);
+const skillInput = document.getElementById('skills').addEventListener('click', Toggle_Skills_Menu);
 const focusInput = document.getElementById('focus').addEventListener('click', Player_Selects);
 
 
-const selectionBox = document.getElementById('selection-box');
-function turnCounter() {
-    turn++;
+
+function Toggle_Skills_Menu(){
+    document.getElementById('skills-menu').classList.toggle('Toggle_Menu');
 }
+
+
 
 let Players_Move;
 let Enemys_Move;
@@ -26,8 +27,8 @@ function Player_Selects(){
 }
 
 function Enemy_Selects(){
-    let Options = ['attack','defend','skills','focus'];
-    Enemys_Move = Options[Math.round(Math.random()*3)];
+    let Options = ['attack','attack','attack','attack','attack','attack','attack','defend','skills','focus'];
+    Enemys_Move = Options[Math.round(Math.random()*(Options.length-1))];
     Battle();
 }
 
@@ -37,7 +38,7 @@ function Battle(){
     (Enemys_Move == 'defend') ? enemyUnit.isDefending = 'true' : enemyUnit.isDefending = 'false';
 
     // console.log("Player Selects: " + String(Players_Move));
-    // console.log("Enemy Selects: " + String(Enemys_Move));
+    console.log("Enemy Selects: " + String(Enemys_Move));
 
     // Process players move
     switch(Players_Move) {
@@ -116,7 +117,14 @@ function Update_HP_Bar(target){
 
 
 
-let Queue = [];
+
+
+
+
+
+
+
+
 
 // function Player_Selects(playerUnit, enemyUnit){
 //     console.log(this.innerHTML);
@@ -130,24 +138,9 @@ let Queue = [];
 //         playerUnit.isDefending === true;
 //         // addLog(`${playerUnit.unitName} is bracing itself... <br>`);
 //         console.log(playerUnit.isDefending);
-//     }
-
-
-
-
-    
+//     }    
 
 // }
-
-
-
-
-
-
-
-
-
-
 
 
 // determines who's turn is functioning currently 
