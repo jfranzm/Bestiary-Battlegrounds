@@ -1,54 +1,59 @@
 /*----- constants -----*/
-// const attackInput = document.getElementById('attack').addEventListener('click', playerTurn);
-// const defendInput = document.getElementById('defend').addEventListener('click', playerTurn);
-// const skillInput = document.getElementById('skills').addEventListener('click', playerTurn);
-// const focusInput = document.getElementById('focus').addEventListener('click', playerTurn);
+let playerMove, enemyMove;
 
-document.getElementById('attack').addEventListener('click', Player_Selects);
-document.getElementById('defend').addEventListener('click', Player_Selects);
-document.getElementById('skills').addEventListener('click', Toggle_Skills_Menu);
-document.getElementById('back').addEventListener('click', Toggle_Skills_Menu);
-document.getElementById('focus').addEventListener('click', Player_Selects);
-document.getElementById('double-hit').addEventListener('click', Player_Selects);
-document.getElementById('heal').addEventListener('click', Player_Selects);
+document.getElementById('play').addEventListener('click', playGame);
+document.getElementById('attack').addEventListener('click', playerSelection);
+document.getElementById('defend').addEventListener('click', playerSelection);
+document.getElementById('skills').addEventListener('click', toggleSkillsMenu);
+document.getElementById('back').addEventListener('click', toggleSkillsMenu);
+document.getElementById('focus').addEventListener('click', playerSelection);
+document.getElementById('double-hit').addEventListener('click', playerSelection);
+document.getElementById('heal').addEventListener('click', playerSelection);
 
+let buttons = document.getElementsByTagName('button');
 
-function Toggle_Skills_Menu(){
-    document.getElementById('skills-menu').classList.toggle('Toggle_Menu');
+/*----- functions -----*/
+function toggleSkillsMenu(){
+    document.getElementById('skills-menu').classList.toggle('toggleMenu');
 }
-Update_HP_Bar(playerUnit)
-
-let Players_Move;
-let Enemys_Move;
-
-// What they want to do
-function Player_Selects(){
-    Players_Move = this.innerHTML;
-    Enemy_Selects();
+// updateHPBar(playerUnit)
+function playGame(){
+    document.getElementById('title-screen').classList.toggle('startGame');
 }
 
-function Enemy_Selects(){
-    let Options = ['attack','attack','attack','attack','attack','attack','attack','defend','skills','focus'];
-    Enemys_Move = Options[Math.round(Math.random()*(Options.length-1))];
-    Battle();
+// Player's input
+function playerSelection(){
+    playerMove = this.innerHTML;
+    console.log(playerMove)
+    enemySelection();
 }
 
+// Enemy AI
+function enemySelection(){
+    let options = ['attack','attack','attack','attack','attack','attack','attack','defend','heal','focus'];
+    enemyMove = options[Math.round(Math.random()*(options.length-1))];
+    battle();
+}
 
-function Battle(){
-    (Players_Move == 'defend') ? playerUnit.isDefending = 'true' : playerUnit.isDefending = 'false';
-    (Enemys_Move == 'defend') ? enemyUnit.isDefending = 'true' : enemyUnit.isDefending = 'false';
-
-    // console.log("Player Selects: " + String(Players_Move));
-    console.log("Enemy Selects: " + String(Enemys_Move));
+// Main body of battle system
+function battle(){
+    // Checks if player is in defensive state
+    (playerMove == 'defend') ? playerUnit.isDefending = 'true' : playerUnit.isDefending = 'false';
+    // Checks if enemy is in defensive state
+    (enemyMove == 'defend') ? enemyUnit.isDefending = 'true' : enemyUnit.isDefending = 'false';
+    console.log("Enemy Selects: " + String(enemyMove));
 
     // Process players move
-    switch(Players_Move) {
+    switch(playerMove) {
         case "attack":
-            Attack(playerUnit,enemyUnit);
+            attack(playerUnit,enemyUnit);
+            playerAttackAnimation();
             break;
         case "double-hit":
-            Attack(playerUnit,enemyUnit);
-            Attack(playerUnit,enemyUnit);
+            addLog(`${playerUnit.unitName} used double-hit! <br>`)
+            attack(playerUnit,enemyUnit);
+            attack(playerUnit,enemyUnit);
+            playerAttackAnimation();
             break;
         case "heal":
             heal(playerUnit);
@@ -57,58 +62,63 @@ function Battle(){
             break;
         default:
       }
-    // Attack(playerUnit,enemyUnit);
-
-    let Enemy_Think_Time = 1500;
+      
+    let enemyThinkTime = 2000;
     
-    let Selection_Box = document.getElementById('selection-box');
-    Selection_Box.classList.remove('Move_Left_Animation');
-    void Selection_Box.offsetWidth;
-    Selection_Box.classList.add('Move_Left_Animation');
+    let selectionBox = document.getElementById('selection-box');
+    selectionBox.classList.remove('moveLeftAnimation');
+    void selectionBox.offsetWidth;
+    selectionBox.classList.add('moveLeftAnimation');
 
     setTimeout(function(){
     // Process enemys move
-    switch(Enemys_Move) {
+    switch(enemyMove) {
         case "attack":
-            Attack(enemyUnit,playerUnit);
-            document.getElementById("enemySprite").classList.remove("Smack");
-            void document.getElementById("enemySprite").offsetWidth;
-            document.getElementById("enemySprite").classList.add("Smack");
+            attack(enemyUnit,playerUnit);
+            enemyAttackAnimation();
             break;
-
+        case "heal":
+            heal(enemyUnit);
+            break;
         case "focus":
             break;
         default:
     }
 
 
-      }, Enemy_Think_Time);
+      }, enemyThinkTime);
+      
+
+  
 
 }
 
 
 
-function Attack(Attacker,Receiver){
-    let Full_Power_Attack = (Math.floor(Math.random() * (Attacker.atkStat)) + 1);
-    let Reciever_Shielding = ((Math.floor(Math.random() * Receiver.defStat)) / 100) + 1;
-    let Cummulative_Attack = Full_Power_Attack/Reciever_Shielding;
-    if(Receiver.isDefending == 'true'){
-        Cummulative_Attack = Cummulative_Attack / 3;        
+function attack(attacker,receiver){
+    let fullPowerAttack = (Math.floor(Math.random() * (attacker.atkStat)) + 1);
+    let defStatCalc = ((Math.floor(Math.random() * receiver.defStat)) / 100) + 1;
+    let cummulativeAttack = fullPowerAttack/defStatCalc;
+    if(receiver.isDefending == 'true'){
+        cummulativeAttack = cummulativeAttack / 3;        
     }
-    Cummulative_Attack = Math.round(Cummulative_Attack);
-    Receiver.HP = Receiver.HP - Cummulative_Attack;
-    addLog(`${Attacker.unitName} dealt ${Cummulative_Attack} damage! <br>`);
-    Update_HP_Bar(Receiver);
-    return Cummulative_Attack;
+    cummulativeAttack = Math.round(cummulativeAttack);
+    receiver.HP = receiver.HP - cummulativeAttack;
+    addLog(`${attacker.unitName} dealt ${cummulativeAttack} damage! <br>`);
+    updateHPBar(receiver);
+    return cummulativeAttack;
 }
 
 function heal(target){
+    addLog(`${target.unitName} used heal! <br>`);
     target.HP = Math.min(target.HP + (target.totalHP / 4),target.totalHP);
-    Update_HP_Bar(target);
+    updateHPBar(target);
+    target.MP = Math.min(target.MP - (target.totalMP / 2),0);
+    updateMPBar(target);
 }
 
 
-function Update_HP_Bar(target){
+function updateHPBar(target){
     // dictionary for position of HP Bar
     const hpStatus = {
         0: 'red',
@@ -136,134 +146,54 @@ function Update_HP_Bar(target){
         enemyHPBar.style.backgroundImage = `linear-gradient(to right, ${barColour} ${barPercentage}%, rgba(0,0,0,0) ${barPercentage}%)`;
     }
 }
+function updateMPBar(user){
+    let barPercentage = parseFloat((user.MP / user.totalMP) * 100); 
+    // // if player is using skill, update MP bar
+    if(user == playerUnit) {
+        const playerMPBar = document.getElementById('player-MPbar');
+        playerMPBar.style.backgroundImage = `linear-gradient(to right, lightSkyBlue ${barPercentage}%, rgba(0,0,0,0) ${barPercentage}%)`;
+    }
+    // if enemy is using skill, update MP bar
+    else{
+        const enemyMPBar = document.getElementById('enemy-MPbar');
+        enemyMPBar.style.backgroundImage = `linear-gradient(to right, lightSkyBlue ${barPercentage}%, rgba(0,0,0,0) ${barPercentage}%)`;
+    }
+}
 
+function enemyAttackAnimation() {
+    document.getElementById("enemySprite").classList.remove("enemySmack");
+    void document.getElementById("enemySprite").offsetWidth;
+    document.getElementById("enemySprite").classList.add("enemySmack");
+    document.getElementById("playerSprite").classList.remove("playerDamaged");
+    void document.getElementById("playerSprite").offsetWidth;
+    document.getElementById("playerSprite").classList.add("playerDamaged");
+}
 
+function playerAttackAnimation() {
+    document.getElementById("playerSprite").classList.remove("playerSmack");
+    void document.getElementById("playerSprite").offsetWidth;
+    document.getElementById("playerSprite").classList.add("playerSmack");
+    document.getElementById("enemySprite").classList.remove("enemyDamaged");
+    void document.getElementById("enemySprite").offsetWidth;
+    document.getElementById("enemySprite").classList.add("enemyDamaged");
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// function Player_Selects(playerUnit, enemyUnit){
-//     console.log(this.innerHTML);
-//     if(this.innerHTML == 'attack'){
-//         if(enemyUnit.isDefending == false){
-//             dmgCalc(enemyUnit, playerUnit);
-//         }
-//         else{defCalc()}
-//     }
-//     else if(this.innerHTML == 'defend'){
-//         playerUnit.isDefending === true;
-//         // addLog(`${playerUnit.unitName} is bracing itself... <br>`);
-//         console.log(playerUnit.isDefending);
-//     }    
-
-// }
-
-
-// determines who's turn is functioning currently 
-// function whosTurn(){
-//     // let turnParity = (turn % 2 !== 0);
-//     // (turnParity) ? playerTurn() : enemyTurn(); 
-//     if(turn % 2 !== 0){
-//         playerTurn(attackInput, defendInput, skillInput, focusInput);
-//         console.log(playerTurn)
-//         turn ++;
-//     }
-//     else {
-//         enemyTurn();
-//         turn ++;
-//     }
-    
-// }
-
-
-// // win condition
-// function playerWin() {
-//     if (enemyUnit.HP <= 0) {
-//         addLog(`You successfully defeated ${enemyUnit.unitName}!`)
-//         for (index=0; index < buttons.length; index++) {
-//             buttons[index].disabled = true;
-//         }
-//    }
-// }
-// // Lose condition
-// function playerLoss() {
-//     if (playerUnit.HP <= 0) {
-//         addLog(`${playerUnit.unitName} has fainted... you begin to blackout<br>`)
-//         for (index=0; index < buttons.length; index++) {
-//             buttons[index].disabled = true;
-//         }
-//     }
-// }
-// // game over condition OR battle end
-// function gameOver() {
-//     playerWin();
-//     playerLoss();
-// }
+// game over condition OR battle end
+function gameOver() {
+    if (enemyUnit.HP <= 0) {
+        addLog(`You successfully defeated ${enemyUnit.unitName}!`)
+        for (index=0; index < buttons.length; index++) {
+            buttons[index].disabled = true;
+        }
+        return true;
+   }
+   if (playerUnit.HP <= 0) {
+    addLog(`${playerUnit.unitName} has fainted... you begin to blackout<br>`)
+    for (index=0; index < buttons.length; index++) {
+        buttons[index].disabled = true;
+    }
+    return true;
+}
+    return false;
+}
 // /*----- event listeners -----*/
-// function playerTurn(attackInput, defendInput, skillInput, focusInput){
-//     console.log("Attack");
-//     if(attackInput){
-//         dmgCalc(enemyUnit, playerUnit);
-//         playerUnit.isAttacking === true;
-//         console.log(playerUnit.isAttacking);
-
-//     }
-//     else if(defendInput){
-//         defCalc(playerUnit, enemyUnit, playerUnit);
-//         playerUnit.isAttacking === false;
-//         console.log(playerUnit.isAttacking);
-//     }
-//     else if(skillInput){
-//         skillsMenu(selectionBox);
-//     }
-//     else if(focusInput){
-//         focusCalc(playerUnit);
-//     }
-//     gameOver();
-//     turn ++;
-// }
-
-
-
-// function enemyTurn() {
-//     const enemyOptions = {
-//         enemyAttack: dmgCalc(playerUnit, enemyUnit),
-//         enemyDefendAction: defCalc(enemyUnit, playerUnit, enemyUnit),
-//     }
-//     // function enemyAI(option) { 
-//     //     let enemyAction = Object.keys(enemyOptions);
-//     //     option[enemyAction[enemyAction.length * Math.random() << 0]];
-//     // }
-//     if(turn % 2 === 0){
-//         // enemyAI(enemyOptions);
-//         gameOver();
-//     }
-// }
-
-// // const box = document.getElementById('skills');
-// // box.addEventListener('click', skillsMenu);
-
-// // function skillsMenu(event) {
-// //   // Get the element that was clicked
-// //   const element = event.target;
-  
-// //   // Double the size of the element
-// //   const width = element.offsetWidth;
-// //   const height = element.offsetHeight;
-// //   element.style.width = 2 * width + 'px';
-// //   element.style.height = 2 * height + 'px';
-// // }

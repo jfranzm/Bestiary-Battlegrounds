@@ -15,10 +15,10 @@ class Unit {
 }
 
 // playerUnit stats
-playerUnit = new Unit('Monkey', 30, 30, 15, 15, 10, 8, false)
+playerUnit = new Unit('Monkey', 30, 30, 15, 20, 10, 8, false)
 
 // enemyUnit stats
-enemyUnit = new Unit('Frog', 40, 40, 15, 15, 6, 10, false)
+enemyUnit = new Unit('Frog', 40, 40, 15, 15, 30, 10, false)
 // turn counter
 let turn = 1
 

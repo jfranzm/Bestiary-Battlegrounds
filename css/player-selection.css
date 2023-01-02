@@ -14,8 +14,6 @@
     filter: opacity(1);
 }
 .playerInput {
-    /* height: 20px;
-    width: 50px; */
     height: 100%;
     width: 100%;
     border: none;
@@ -47,7 +45,7 @@
     grid-template-rows: 1fr 1fr;
 }
 
-.Toggle_Menu{
+.toggleMenu{
     filter: opacity(1);
     transform: translateY(0em) translateX(0rem);
     pointer-events: all;
@@ -80,12 +78,12 @@ button{
 }
 
 
-.Move_Left_Animation{
-    animation: Move_Left 2s ease;
+.moveLeftAnimation{
+    animation: moveLeft 0.5s ease;
 }
 
 
-@keyframes Move_Left{
+@keyframes moveLeft{
     0%{transform:translateX(0rem); filter: opacity(1);}
     20%{transform:translateX(-20rem); filter: opacity(0);}
     80%{transform:translateX(-20rem); filter: opacity(0);}
@@ -93,14 +91,49 @@ button{
 }
 
 
-.Smack{
-    animation: Spin_Out 2s linear forwards;
+.enemySmack{
+    animation: enemyAttack 1.0s linear forwards;
 }
 
-@keyframes Spin_Out{
+@keyframes enemyAttack {
     0%{transform: rotateY(0deg);}
     20%{transform: translateX(-180%)};
     50%{transform: translateX(-180%)};
     100%{transform: translateX(0%);}
 
+}
+
+.playerSmack{
+    animation: playerAttack 1.0s linear forwards;
+}
+
+@keyframes playerAttack {
+    0%{transform: rotateY(0deg);}
+    20%{transform: translateX(470%)};
+    50%{transform: translateX(470%)};
+    100%{transform: translateX(0%);}
+}
+
+.enemyDamaged {
+    animation: enemyHit .5s;
+}
+
+@keyframes enemyHit {
+    60%{opacity: 1;}
+    70%{opacity: 0;}
+    80%{opacity: 1;}
+    90%{opacity: 0;}
+    100%{opacity: 1;}
+}
+
+.playerDamaged {
+    animation: playerHit .5s;
+}
+
+@keyframes playerHit {
+    60%{opacity: 1;}
+    70%{opacity: 0;}
+    80%{opacity: 1;}
+    90%{opacity: 0;}
+    100%{opacity: 1;}
 }
