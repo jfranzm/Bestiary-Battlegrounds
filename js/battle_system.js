@@ -56,9 +56,11 @@ function battle(){
         case "attack":
             attack(playerUnit,enemyUnit);
             playerAttackAnimation();
+            damageSound();
             break;
         case "double-hit":
             doubleHit(playerUnit, enemyUnit);
+            damageSound();
             break;
         case "heal":
             heal(playerUnit);
@@ -85,6 +87,7 @@ function battle(){
             addLog(`${enemyUnit.unitName} is attacking! <br>`)
             attack(enemyUnit,playerUnit);
             enemyAttackAnimation();
+            damageSound();
             break;
         case "heal":
             heal(enemyUnit);

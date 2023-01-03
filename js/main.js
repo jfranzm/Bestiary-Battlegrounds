@@ -43,6 +43,12 @@ function selectionSound(){
     // sound.volume = 0.2;
     sound.play();
 }
+function damageSound(){
+    let sound = document.getElementById('damage-sound');
+    // sound.currentTime = 0;
+    // sound.volume = 0.2;
+    sound.play();
+}
 
 
 
