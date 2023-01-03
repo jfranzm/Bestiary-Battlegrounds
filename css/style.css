@@ -1,5 +1,5 @@
 body {
-    background-color: white;
+    background-color: black;
     overflow: hidden;
 }
 
@@ -47,13 +47,7 @@ body {
     height: 576px;
     position: absolute;
 }
-#stat-bar {
-    position: absolute;
-    width: 1024px;
-    height: 60px;
-    background-color: burlywood;
-    top: 0;
-}
+
 
 #playerSprite {
     width: 120px;

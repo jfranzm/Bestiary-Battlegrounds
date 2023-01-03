@@ -2,7 +2,7 @@
     height: 100px;
     width: 300px;
     position: absolute;
-    top: 80px;
+    top: 10px;
     left: 20px;
     display: grid;
     grid-template-columns: 1fr 1fr;
