@@ -12,7 +12,7 @@ document.getElementById('heal').addEventListener('click', playerSelection);
 
 let buttons = document.getElementsByTagName('button');
 
-/*----- functions -----*/
+/*----- Event Listeners -----*/
 function toggleSkillsMenu(){
     document.getElementById('skills-menu').classList.toggle('toggleMenu');
     selectionSound();
@@ -21,6 +21,7 @@ function toggleSkillsMenu(){
 function playGame(){
     document.getElementById('title-screen').classList.toggle('startGame');
     selectionSound();
+    backgroundMusic();
 }
 
 // Player's input
@@ -96,71 +97,12 @@ function battle(){
             focus(enemyUnit);
             break;
         default:
-    }
+            }
+        }
+    }, enemyThinkTime);
 }
 
-      }, enemyThinkTime);
-
-}
-
-
-
-function attack(attacker,receiver){
-    let fullPowerAttack = (Math.floor(Math.random() * (attacker.atkStat)) + 1);
-    let defStatCalc = ((Math.floor(Math.random() * receiver.defStat)) / 100) + 1;
-    let cummulativeAttack = fullPowerAttack/defStatCalc;
-    if(receiver.isDefending == 'true'){
-        cummulativeAttack = cummulativeAttack / 3;        
-    }
-    cummulativeAttack = Math.round(cummulativeAttack);
-    receiver.HP = receiver.HP - cummulativeAttack;
-    addLog(`${attacker.unitName} dealt ${cummulativeAttack} damage! <br>`);
-    updateHPBar(receiver);
-    isGameover = gameOver();
-
-    if(isGameover){
-        let enemyHP = enemyUnit.HP;
-        let playerHP = playerUnit.HP;
-        (enemyHP > playerHP) ? addLog(`${playerUnit.unitName} has fainted... you begin to blackout <br>`) : addLog(`You successfully defeated ${enemyUnit.unitName}! <br>`)
-    }
-    return cummulativeAttack;
-}
-
-function heal(target){
-    if(target.MP >= 10){
-        addLog(`${target.unitName} used heal! <br>`);
-        target.HP = Math.min(target.HP + (target.totalHP / 4),target.totalHP);
-        updateHPBar(target);
-        target.MP = Math.floor(target.MP - 10);
-        updateMPBar(target);
-    }
-    else{
-        addLog(`${target.unitName} doesn't have enough MP! <br>`);
-    }
-}
-
-function focus(user){
-    addLog(`${user.unitName} is heighting their focus... <br>`);
-    user.MP = parseInt(Math.min(user.MP + (user.totalMP / 4),user.totalMP));
-    console.log(user.MP);
-    updateMPBar(user);
-    addLog(`${user.unitName} recovered ${user.MP} <br>`);
-
-}
-function doubleHit(attacker, target){
-    if(attacker.MP >= 4){
-        addLog(`${attacker.unitName} used double-hit! <br>`);
-        attack(attacker,target);
-        attack(attacker,target);
-        playerAttackAnimation();
-        attacker.MP = Math.floor(attacker.MP - 4);
-        updateMPBar(attacker);
-    }
-    else{
-        addLog(`${target.unitName} doesn't have enough MP! <br>`);
-    }
-}
-
+// updates unit HP in response to events
 function updateHPBar(target){
     // dictionary for position of HP Bar
     const hpStatus = {
@@ -189,6 +131,7 @@ function updateHPBar(target){
         enemyHPBar.style.backgroundImage = `linear-gradient(to right, ${barColour} ${barPercentage}%, rgba(0,0,0,0) ${barPercentage}%)`;
     }
 }
+// updates unit MP bar in response to events
 function updateMPBar(user){
     let barPercentage = parseFloat((user.MP / user.totalMP) * 100); 
     // // if player is using skill, update MP bar
@@ -203,6 +146,7 @@ function updateMPBar(user){
     }
 }
 
+// performs attack animation for enemy
 function enemyAttackAnimation() {
     let enemySprite = document.getElementById("enemySprite");
     let playerSprite = document.getElementById("playerSprite");
@@ -213,6 +157,7 @@ function enemyAttackAnimation() {
     playerSprite.classList.add("playerDamaged");
 }
 
+// performs attack animation for player
 function playerAttackAnimation() {
     let enemySprite = document.getElementById("enemySprite");
     let playerSprite = document.getElementById("playerSprite");
@@ -224,7 +169,6 @@ function playerAttackAnimation() {
 }
 
 // game over condition OR battle end
-
 function gameOver() {
     let enemyHP = enemyUnit.HP;
     let playerHP = playerUnit.HP;
@@ -238,22 +182,3 @@ function gameOver() {
         return false;
     }
 }
-
-// function playerWin(){
-//     if (enemyUnit.HP <= 0) {
-//         addLog(`You successfully defeated ${enemyUnit.unitName}! <br>`)
-//         for (index=0; index < buttons.length; index++) {
-//             buttons[index].disabled = true;
-//         }
-//     }
-// }
-
-// function enemyWin(){
-//     if (playerUnit.HP <= 0) {
-//         addLog(`${playerUnit.unitName} has fainted... you begin to blackout <br>`)
-//         for (index=0; index < buttons.length; index++) {
-//             buttons[index].disabled = true;
-//         }
-//     }
-// }
-// /*----- event listeners -----*/

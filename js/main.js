@@ -39,23 +39,29 @@ function addLog(Text){
 
 function selectionSound(){
     let sound = document.getElementById('selection-sound');
-    // sound.currentTime = 0;
-    // sound.volume = 0.2;
+    sound.volume = 0.5;
     sound.play();
 }
 function damageSound(){
     let sound = document.getElementById('damage-sound');
-    // sound.currentTime = 0;
-    // sound.volume = 0.2;
+    sound.volume = 0.5;
     sound.play();
 }
 
+function backgroundMusic(){
+    let bgMusic = document.getElementById('background-music');
+    bgMusic.volume = 0.7;
+    bgMusic.play();
+}
 
+function healSoundFX(){
+    let sound = document.getElementById('heal-sound');
+    sound.volume = 0.5;
+    sound.play();
+}
 
-
-
-
-
-
-
-
+function manaRestoreSoundFX(){
+    let sound = document.getElementById('mana-restore-sound');
+    sound.volume = 0.5;
+    sound.play();
+}
