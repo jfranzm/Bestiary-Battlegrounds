@@ -1,6 +1,6 @@
 /*----- constants -----*/
 let playerMove, enemyMove;
-
+let isGameover = false;
 document.getElementById('play').addEventListener('click', playGame);
 document.getElementById('attack').addEventListener('click', playerSelection);
 document.getElementById('defend').addEventListener('click', playerSelection);
@@ -15,16 +15,18 @@ let buttons = document.getElementsByTagName('button');
 /*----- functions -----*/
 function toggleSkillsMenu(){
     document.getElementById('skills-menu').classList.toggle('toggleMenu');
+    selectionSound();
 }
 // updateHPBar(playerUnit)
 function playGame(){
     document.getElementById('title-screen').classList.toggle('startGame');
+    selectionSound();
 }
 
 // Player's input
 function playerSelection(){
     playerMove = this.innerHTML;
-    console.log(playerMove)
+    selectionSound();
     enemySelection();
 }
 
@@ -39,31 +41,36 @@ function enemySelection(){
 function battle(){
     // Checks if player is in defensive state
     (playerMove == 'defend') ? playerUnit.isDefending = 'true' : playerUnit.isDefending = 'false';
+    if(playerMove == 'defend'){
+        addLog(`${playerUnit.unitName} is bracing itself... <br>`)
+    }
     // Checks if enemy is in defensive state
     (enemyMove == 'defend') ? enemyUnit.isDefending = 'true' : enemyUnit.isDefending = 'false';
-    console.log("Enemy Selects: " + String(enemyMove));
-
+    if(enemyMove == 'defend'){
+        addLog(`${enemyUnit.unitName} is bracing itself... <br>`)
+    }
     // Process players move
+    isGameover = gameOver();
+    if(!isGameover){
     switch(playerMove) {
         case "attack":
             attack(playerUnit,enemyUnit);
             playerAttackAnimation();
             break;
         case "double-hit":
-            addLog(`${playerUnit.unitName} used double-hit! <br>`)
-            attack(playerUnit,enemyUnit);
-            attack(playerUnit,enemyUnit);
-            playerAttackAnimation();
+            doubleHit(playerUnit, enemyUnit);
             break;
         case "heal":
             heal(playerUnit);
             break;
         case "focus":
+            focus(playerUnit);
             break;
         default:
       }
-      
-    let enemyThinkTime = 2000;
+    }
+    isGameover = gameOver();
+    let enemyThinkTime = 1000;
     
     let selectionBox = document.getElementById('selection-box');
     selectionBox.classList.remove('moveLeftAnimation');
@@ -72,8 +79,10 @@ function battle(){
 
     setTimeout(function(){
     // Process enemys move
+    if(!isGameover){
     switch(enemyMove) {
         case "attack":
+            addLog(`${enemyUnit.unitName} is attacking! <br>`)
             attack(enemyUnit,playerUnit);
             enemyAttackAnimation();
             break;
@@ -81,15 +90,13 @@ function battle(){
             heal(enemyUnit);
             break;
         case "focus":
+            focus(enemyUnit);
             break;
         default:
     }
-
+}
 
       }, enemyThinkTime);
-      
-
-  
 
 }
 
@@ -106,17 +113,50 @@ function attack(attacker,receiver){
     receiver.HP = receiver.HP - cummulativeAttack;
     addLog(`${attacker.unitName} dealt ${cummulativeAttack} damage! <br>`);
     updateHPBar(receiver);
+    isGameover = gameOver();
+
+    if(isGameover){
+        let enemyHP = enemyUnit.HP;
+        let playerHP = playerUnit.HP;
+        (enemyHP > playerHP) ? addLog(`${playerUnit.unitName} has fainted... you begin to blackout <br>`) : addLog(`You successfully defeated ${enemyUnit.unitName}! <br>`)
+    }
     return cummulativeAttack;
 }
 
 function heal(target){
-    addLog(`${target.unitName} used heal! <br>`);
-    target.HP = Math.min(target.HP + (target.totalHP / 4),target.totalHP);
-    updateHPBar(target);
-    target.MP = Math.min(target.MP - (target.totalMP / 2),0);
-    updateMPBar(target);
+    if(target.MP >= 10){
+        addLog(`${target.unitName} used heal! <br>`);
+        target.HP = Math.min(target.HP + (target.totalHP / 4),target.totalHP);
+        updateHPBar(target);
+        target.MP = Math.floor(target.MP - 10);
+        updateMPBar(target);
+    }
+    else{
+        addLog(`${target.unitName} doesn't have enough MP! <br>`);
+    }
 }
 
+function focus(user){
+    addLog(`${user.unitName} is heighting their focus... <br>`);
+    user.MP = parseInt(Math.min(user.MP + (user.totalMP / 4),user.totalMP));
+    console.log(user.MP);
+    updateMPBar(user);
+    addLog(`${user.unitName} recovered ${user.MP} <br>`);
+
+}
+function doubleHit(attacker, target){
+    if(attacker.MP >= 4){
+        addLog(`${attacker.unitName} used double-hit! <br>`);
+        attack(attacker,target);
+        attack(attacker,target);
+        playerAttackAnimation();
+        attacker.MP = Math.floor(attacker.MP - 4);
+        updateMPBar(attacker);
+    }
+    else{
+        addLog(`${target.unitName} doesn't have enough MP! <br>`);
+    }
+}
 
 function updateHPBar(target){
     // dictionary for position of HP Bar
@@ -161,39 +201,56 @@ function updateMPBar(user){
 }
 
 function enemyAttackAnimation() {
-    document.getElementById("enemySprite").classList.remove("enemySmack");
-    void document.getElementById("enemySprite").offsetWidth;
-    document.getElementById("enemySprite").classList.add("enemySmack");
-    document.getElementById("playerSprite").classList.remove("playerDamaged");
-    void document.getElementById("playerSprite").offsetWidth;
-    document.getElementById("playerSprite").classList.add("playerDamaged");
+    let enemySprite = document.getElementById("enemySprite");
+    let playerSprite = document.getElementById("playerSprite");
+    enemySprite.classList.remove("enemySmack", "enemyDamaged");
+    void enemySprite.offsetWidth;
+    void playerSprite.offsetWidth;
+    enemySprite.classList.add("enemySmack");
+    playerSprite.classList.add("playerDamaged");
 }
 
 function playerAttackAnimation() {
-    document.getElementById("playerSprite").classList.remove("playerSmack");
-    void document.getElementById("playerSprite").offsetWidth;
-    document.getElementById("playerSprite").classList.add("playerSmack");
-    document.getElementById("enemySprite").classList.remove("enemyDamaged");
-    void document.getElementById("enemySprite").offsetWidth;
-    document.getElementById("enemySprite").classList.add("enemyDamaged");
+    let enemySprite = document.getElementById("enemySprite");
+    let playerSprite = document.getElementById("playerSprite");
+    playerSprite.classList.remove("playerSmack", "playerDamaged");
+    void playerSprite.offsetWidth;
+    void enemySprite.offsetWidth;
+    playerSprite.classList.add("playerSmack");
+    enemySprite.classList.add("enemyDamaged");
 }
 
 // game over condition OR battle end
+
 function gameOver() {
-    if (enemyUnit.HP <= 0) {
-        addLog(`You successfully defeated ${enemyUnit.unitName}!`)
+    let enemyHP = enemyUnit.HP;
+    let playerHP = playerUnit.HP;
+    if((enemyHP <= 0) || (playerHP <= 0)){
         for (index=0; index < buttons.length; index++) {
             buttons[index].disabled = true;
         }
         return true;
-   }
-   if (playerUnit.HP <= 0) {
-    addLog(`${playerUnit.unitName} has fainted... you begin to blackout<br>`)
-    for (index=0; index < buttons.length; index++) {
-        buttons[index].disabled = true;
     }
-    return true;
+    else {
+        return false;
+    }
 }
-    return false;
-}
+
+// function playerWin(){
+//     if (enemyUnit.HP <= 0) {
+//         addLog(`You successfully defeated ${enemyUnit.unitName}! <br>`)
+//         for (index=0; index < buttons.length; index++) {
+//             buttons[index].disabled = true;
+//         }
+//     }
+// }
+
+// function enemyWin(){
+//     if (playerUnit.HP <= 0) {
+//         addLog(`${playerUnit.unitName} has fainted... you begin to blackout <br>`)
+//         for (index=0; index < buttons.length; index++) {
+//             buttons[index].disabled = true;
+//         }
+//     }
+// }
 // /*----- event listeners -----*/

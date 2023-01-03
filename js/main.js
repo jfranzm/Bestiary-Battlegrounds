@@ -2,12 +2,12 @@
 let playerUnit, enemyUnit;
 // Unit class
 class Unit {
-    constructor(unitName, totalHP, HP, totalStamina, stamina, atkStat, defStat, isDefending) {
+    constructor(unitName, totalHP, HP, totalMP, MP, atkStat, defStat, isDefending) {
         this.unitName = unitName;
         this.totalHP = totalHP;
         this.HP = HP;
-        this.totalStamina = totalStamina;
-        this.stamina = stamina;
+        this.totalMP = totalMP;
+        this.MP = MP;
         this.atkStat = atkStat;
         this.defStat = defStat;
         this.isDefending = isDefending;
@@ -15,10 +15,10 @@ class Unit {
 }
 
 // playerUnit stats
-playerUnit = new Unit('Monkey', 30, 30, 15, 20, 10, 8, false)
+playerUnit = new Unit('Monkey', 30, 30, 20, 20, 10, 8, false)
 
 // enemyUnit stats
-enemyUnit = new Unit('Frog', 40, 40, 15, 15, 30, 10, false)
+enemyUnit = new Unit('Frog', 40, 40, 15, 15, 10, 10, false)
 // turn counter
 let turn = 1
 
@@ -35,6 +35,13 @@ function addLog(Text){
     newLog.innerHTML = Text;
     textBox.appendChild(newLog);
     textBox.scrollTop = textBox.scrollHeight;
+}
+
+function selectionSound(){
+    let sound = document.getElementById('selection-sound');
+    // sound.currentTime = 0;
+    // sound.volume = 0.2;
+    sound.play();
 }
 
 
