@@ -53,6 +53,10 @@ This browser-based game was built entirely from using JavaScript, HTML, and CSS.
 
 The functionality of the game was entirely built through JavaScript - utilizing object-oriented programming to perform the player's actions in response to their inputs. It was further utilized to perform the necessary calculations to properly distribute the damage to the appropriate units and integrate skill utility. Additionally, this program made it possible to bring life to the game by granting animations to the units actions and incorperating music and sound effects to the scene.
 
+HTML was used to build the layout of the webpage and to implement the assets for the game such as character models, soundfx, and the canvas in which the game runs in.
+
+CSS was used to style the webpage and give life to the characters. All the animations that were used in the game - from the UI to the characters movements - was made from CSS.
+
 ## Getting Started:
 
 ### Demo:
